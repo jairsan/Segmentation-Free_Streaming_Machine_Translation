@@ -1,0 +1,1 @@
+#./significance_test.sh inference_out/MuST-C.tst-COMMON.segfree_rev_plus_norm_order1_stdest_noint_no_include_next_hist50_k6/all.out.reseg inference_out/MuST-C.tst-COMMON.ds_roberta_large_v2.12.1_hist50_k8/all.out.reseg reference.txt

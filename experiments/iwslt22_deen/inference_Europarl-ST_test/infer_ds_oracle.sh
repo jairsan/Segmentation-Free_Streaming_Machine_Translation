@@ -1,0 +1,38 @@
+segmenter_future_window=$1
+src_file_set_list=$2
+set_name=$3
+output_root_folder=$4
+
+seg_free_root=/home/jiranzo/trabajo/git/my-gits/Segmentation_Free_Toolkit/
+source /home/jiranzo/trabajo/env/venv_py3.8_SegmentationFree/bin/activate
+
+for history_size in 50;
+do
+    #for k in 1 2 4 6 8 10;
+    for k in 3 5 7 9;
+    do
+
+        out=$output_root_folder/"$set_name".ds_oracle."$segmenter_future_window"_hist"$history_size"_k$k
+        rm -r $out
+
+        python3 $seg_free_root/segfreetk/common/translator.py \
+        --agent_type ds_segmenter_oracle_agent \
+        --oracle_segmenter_window $segmenter_future_window \
+        --translator_checkpoint "/scratch/jiranzo/nmt-scripts-output/experiments/mt/SegFree_iwslt22_deen/fairseq_out/Transformer_BIG_ds/checkpoint_best.pt" \
+        --translator_dict_folder "/scratch/jiranzotmp/trabajo/SegmentationFree/iwslt22_deen/data/wmt21_doc_level_ds/fairseq_prepared_data/" \
+        --translator_splitter "/scratch/jiranzotmp/trabajo/SegmentationFree/iwslt22_deen/data/wmt21_doc_level_ds/spm.model" \
+        --translator_splitter_type "str" \
+        --input_files $(cat $src_file_set_list) \
+        --search_length_penalty_alpha 1.0 \
+        --k $k \
+        --catchup 1.08 \
+        --model_special_token_src_end_prefix "" \
+        --model_special_token_src_brk "" \
+        --model_special_token_src_sep "[SEP]" \
+        --src_history_max_len $history_size \
+        --tgt_history_max_len $history_size \
+        --max_forced_read_actions_before_fallback 5 \
+        --block_repeated_ngrams_order 6 \
+        --output_folder $out
+    done
+done

@@ -1,0 +1,11 @@
+universe = vanilla
+
+executable = ./train_model_fairseq_$ENV(MODELCONFIG).sh
+log                     = logs.train_step.$ENV(TRAINSTEP).out
+output                  = outfile.train_step.$ENV(TRAINSTEP).$(Cluster).$(Process).out
+error                   = errors.$(Cluster).$(Process).err
+periodic_remove = (JobStatus == 2) && (time() - EnteredCurrentStatus) > (3600 * 47 + 3000)
+request_gpus = 1
+request_Cpus = 2
+request_Memory = 15000
+queue

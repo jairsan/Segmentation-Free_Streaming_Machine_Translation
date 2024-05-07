@@ -1,0 +1,3 @@
+Diverse methods and scripts for filtering training data.
+The methods used to rely on variables from config.sh.
+With the lates v4.0 version, they should be changed to point to the config_filtering.sh script

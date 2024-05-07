@@ -1,0 +1,11 @@
+This folder contains scripts for filtering corpora using the bicleaner-bifixer tools.
+
+The entry-point is ./step01_launch_filter_data.sh $INPUT_FILE_PREFIX $SOURCE_LANG_SUFFIX $TARGET_LANG_SUFFIX $OUTPUT_FILE_PREFIX
+
+Please keep in mind that you need to first have downloaded the appropiate bicleaner models for this to work.
+(On this script, this has been hardcoded to read from /home/jiranzo/trabajo/git/other-gits/bicleaner/models/)
+
+It's very important to be consistent with the the order of the src/tgt language. If, for example, you are using the pre-trained model en-sl,
+then you must always call the script using srt=en and tgt=sl. Otherwise it wont work properly.
+
+Following official reccomendations, sentences with a score lower than 0.5 are discarded (aux_join_files.sh). If this is too agressive, you can use 0.3 instead.
